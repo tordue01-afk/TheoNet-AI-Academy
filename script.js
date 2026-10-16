@@ -2,21 +2,25 @@ const $ = (selector) => document.querySelector(selector); const $$ = (selector) 
 
 $("#year").textContent = new Date().getFullYear();
 
+// Added your image URLs directly to the respective courses
 const courses = [
-  { id: 1, title: "Image Generation Masterclass", category: "Image Generation", level: "Beginner", duration: "3h 20m", price: "Set price", progress: 68, art: "art-image", symbol: "◩", label: "IMAGE CREATION", description: "Learn visual prompting, styles, composition and image workflows." },
-  { id: 2, title: "Video Creation from Scratch", category: "Video Creation", level: "Beginner", duration: "4h 10m", price: "Set price", progress: 35, art: "art-video", symbol: "▶", label: "VIDEO STUDIO", description: "Plan scenes, write scripts and explore video generation." },
-  { id: 3, title: "Prompt Engineering Essentials", category: "Prompt Engineering", level: "Beginner", duration: "2h 45m", price: "Set price", progress: 85, art: "art-prompt", symbol: "⌘", label: "MASTER PROMPTS", description: "Structure better prompts for text, images, video and business." },
-  { id: 4, title: "Animation & Motion Design", category: "Animation", level: "Intermediate", duration: "5h 00m", price: "Set price", progress: 0, art: "art-animation", symbol: "◒", label: "ANIMATION", description: "Explore character animation, motion graphics and visual storytelling." },
-  { id: 5, title: "Build Websites and Code", category: "Coding", level: "Intermediate", duration: "6h 30m", price: "Set price", progress: 0, art: "art-code", symbol: "</>", label: "DEVELOPMENT", description: "Learn to build and improve websites with modern coding workflows." },
-  { id: 6, title: "Automation for Business", category: "Automation", level: "Beginner", duration: "3h 50m", price: "Set price", progress: 0, art: "art-business", symbol: "↗", label: "BUSINESS", description: "Apply new tools to marketing, productivity and business workflows." }
+  { id: 1, title: "Image Generation Masterclass", category: "Image Generation", level: "Beginner", duration: "3h 20m", price: "Set price", progress: 68, img: "https://res.cloudinary.com/hvncv4da/image/upload/v1792162894/1.jpg", symbol: "◩", label: "IMAGE CREATION", description: "Learn visual prompting, styles, composition and image workflows." },
+  { id: 2, title: "Video Creation from Scratch", category: "Video Creation", level: "Beginner", duration: "4h 10m", price: "Set price", progress: 35, img: "https://res.cloudinary.com/hvncv4da/image/upload/v1792162895/v.jpg", symbol: "▶", label: "VIDEO STUDIO", description: "Plan scenes, write scripts and explore video generation." },
+  { id: 3, title: "Prompt Engineering Essentials", category: "Prompt Engineering", level: "Beginner", duration: "2h 45m", price: "Set price", progress: 85, img: "https://res.cloudinary.com/hvncv4da/image/upload/v1790001462/Max_a_used_this_man_in_the.png", symbol: "⌘", label: "MASTER PROMPTS", description: "Structure better prompts for text, images, video and business." },
+  { id: 4, title: "Animation & Motion Design", category: "Animation", level: "Intermediate", duration: "5h 00m", price: "Set price", progress: 0, img: "https://res.cloudinary.com/hvncv4da/image/upload/v1792162895/6.jpg", symbol: "◒", label: "ANIMATION", description: "Explore character animation, motion graphics and visual storytelling." },
+  { id: 5, title: "Build Websites and Code", category: "Coding", level: "Intermediate", duration: "6h 30m", price: "Set price", progress: 0, img: "https://res.cloudinary.com/hvncv4da/image/upload/v1792162896/10.jpg", symbol: "</>", label: "DEVELOPMENT", description: "Learn to build and improve websites with modern coding workflows." },
+  { id: 6, title: "Automation for Business", category: "Automation", level: "Beginner", duration: "3h 50m", price: "Set price", progress: 0, img: "https://res.cloudinary.com/hvncv4da/image/upload/v1789913646/main-sample.png", symbol: "↗", label: "BUSINESS", description: "Apply new tools to marketing, productivity and business workflows." }
 ];
 
 function courseCard(course, showProgress = false) {
   return `
     <article class="course-card">
-      <div class="course-art ${course.art}">
-        <span class="art-symbol">${course.symbol}</span>
-        <small>${course.label}</small>
+      <div class="course-art">
+        <img src="${course.img}" alt="${course.label}" class="course-img">
+        <div class="course-art-overlay">
+          <span class="art-symbol">${course.symbol}</span>
+          <small>${course.label}</small>
+        </div>
       </div>
       <div class="course-body">
         <div class="course-meta">

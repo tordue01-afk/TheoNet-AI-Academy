@@ -343,40 +343,90 @@ REQUIREMENTS
   showToast("Your structured prompt is ready.");
 });
 
-// Process Payment Checkout Form
-$("#processPaymentBtn")?.addEventListener("click", () => {
-  const name = $("#payName").value.trim();
-  const email = $("#payEmail").value.trim();
-  const card = $("#payCard").value.trim();
+// Payment Method Toggles
+let currentPaymentMethod = 'card';
+const btnCard = $("#btnCard");
+const btnTransfer = $("#btnTransfer");
+const formCard = $("#formCard");
+const formTransfer = $("#formTransfer");
+const processPaymentBtn = $("#processPaymentBtn");
+
+btnCard?.addEventListener("click", () => {
+  currentPaymentMethod = 'card';
+  btnCard.style.borderColor = "var(--blue)";
+  btnCard.style.color = "var(--blue)";
+  btnTransfer.style.borderColor = "var(--border)";
+  btnTransfer.style.color = "var(--text)";
   
-  if (!name || !email || !card) {
-    showToast("Please fill in your name, email, and card details to complete payment.");
-    return;
+  formCard.style.display = "block";
+  formTransfer.style.display = "none";
+  processPaymentBtn.textContent = "Pay ₦50,000 & Enroll";
+});
+
+btnTransfer?.addEventListener("click", () => {
+  currentPaymentMethod = 'transfer';
+  btnTransfer.style.borderColor = "var(--blue)";
+  btnTransfer.style.color = "var(--blue)";
+  btnCard.style.borderColor = "var(--border)";
+  btnCard.style.color = "var(--text)";
+  
+  formCard.style.display = "none";
+  formTransfer.style.display = "block";
+  processPaymentBtn.textContent = "I have made the transfer";
+});
+
+// Process Payment / Verify Transfer
+processPaymentBtn?.addEventListener("click", () => {
+  let name, email;
+  
+  if (currentPaymentMethod === 'card') {
+    name = $("#payName").value.trim();
+    email = $("#payEmail").value.trim();
+    const card = $("#payCard").value.trim();
+    
+    if (!name || !email || !card) {
+      showToast("Please fill in your name, email, and card details.");
+      return;
+    }
+    
+    processPaymentBtn.textContent = "Processing Payment...";
+  } else {
+    name = $("#transferName").value.trim();
+    email = $("#transferEmail").value.trim();
+    
+    if (!name || !email) {
+      showToast("Please enter your name and email so we can verify your transfer.");
+      return;
+    }
+    
+    processPaymentBtn.textContent = "Verifying Transfer...";
   }
   
-  // Simulate successful processing
-  $("#processPaymentBtn").textContent = "Processing Payment...";
-  $("#processPaymentBtn").style.opacity = "0.7";
+  processPaymentBtn.style.opacity = "0.7";
   
+  // Simulate network request
   setTimeout(() => {
-    showToast("Payment Successful! Welcome to TheoNet Academy.");
-    $("#processPaymentBtn").textContent = "Payment Completed ✓";
-    $("#processPaymentBtn").style.background = "var(--green)";
+    if (currentPaymentMethod === 'card') {
+      showToast("Payment Successful! Welcome to TheoNet Academy.");
+      processPaymentBtn.textContent = "Payment Completed ✓";
+    } else {
+      showToast("Transfer verification initiated. You will receive an email shortly.");
+      processPaymentBtn.textContent = "Verification Pending ✓";
+    }
+    
+    processPaymentBtn.style.background = "var(--green)";
     
     // Clear inputs
-    $("#payName").value = "";
-    $("#payEmail").value = "";
-    $("#payCard").value = "";
-    $("#payExpiry").value = "";
-    $("#payCvc").value = "";
+    $("#payName").value = ""; $("#payEmail").value = ""; $("#payCard").value = "";
+    $("#transferName").value = ""; $("#transferEmail").value = "";
     
-    // Redirect to dashboard after a short delay
+    // Redirect to dashboard
     setTimeout(() => {
       navigate("dashboard");
-      $("#processPaymentBtn").textContent = "Pay ₦50,000 & Enroll";
-      $("#processPaymentBtn").style.background = "";
-      $("#processPaymentBtn").style.opacity = "1";
-    }, 2000);
+      processPaymentBtn.textContent = currentPaymentMethod === 'card' ? "Pay ₦50,000 & Enroll" : "I have made the transfer";
+      processPaymentBtn.style.background = "";
+      processPaymentBtn.style.opacity = "1";
+    }, 2500);
   }, 1500);
 });
 
